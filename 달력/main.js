@@ -2,6 +2,7 @@ const Day = document.querySelector('.day');
 const month = document.querySelector('.month-name');
 const date = new Date();
 
+//왼쪽, 오른쪽
 const pre = document.querySelector('.left');
 const next = document.querySelector('.right');
 
@@ -28,11 +29,11 @@ let mon = currentMon;
 
 let clickEventArr = [];
 let storeToDo = [];
-
+//2월달 마지막날짜 계산
 function isLeapYear(year) {
     return (year % 4 == 0) && (year % 400 == 0 || year % 100 != 0);
 }
-
+//모든 달의 날짜 계산
 function getDayOfMon(mon, year) {
     if (mon === 1 || mon === 3 || mon === 5 || mon === 7 || mon === 8 || mon === 10 || mon === 12) {
         return 31;
@@ -49,6 +50,7 @@ function getDay(year, mon, date) {
     const conYMD = year + '-' + mon + '-' + date;
     return (new Date(conYMD).getDay());
 }
+
 function makeCalendar(year, mon, dayCount) {
     clickEventArr = [];
     Day.innerHTML = '';
@@ -123,10 +125,13 @@ function makeCalendar(year, mon, dayCount) {
     }
 }
 
+//2021.8
 function setMonthTitle(year, mon) {
     month.textContent = `${year}.${mon}`
 }
 
+
+//오른쪽날짜
 function nextMonthOrYear() {
     if (mon === 12) {
         year = year + 1;
@@ -139,6 +144,7 @@ function nextMonthOrYear() {
     makeCalendar(year, mon, getDayOfMon(mon, year));
 }
 
+//왼쪽날짜
 function preMonthOrYear() {
     if (mon === 1) {
         year = year - 1;
@@ -159,6 +165,7 @@ function main() {
     displayToDoOnDays();
 }
 
+//todo 보여주기     ****
 function displayToDoOnDays() {
     todoList.innerHTML = '';
     const YMD = year + '-' + mon + '-' + DayOfChoice;
@@ -196,6 +203,7 @@ function displayToDoOnDays() {
     }
 }
 
+//좌클릭 우클릭 감지
 pre.addEventListener('click', preMonthOrYear);
 next.addEventListener('click', nextMonthOrYear);
 
@@ -206,6 +214,7 @@ function clearEvent() {
     });
 }
 
+//날짜 클릭 감지
 Day.addEventListener('click', (event) => {
     if (event.target.tagName === 'UL') return;
     if (event.target.className !== 'disabled') {
@@ -224,6 +233,7 @@ Day.addEventListener('click', (event) => {
 
 });
 
+//2번이상 add
 function keepStore() {
     const YMD = year + '-' + mon + '-' + DayOfChoice;
     let arrayToDo;
@@ -244,6 +254,7 @@ function keepStore() {
     return arr;
 }
 
+//Add동작
 function addToDoList() {
     if (input.value === '') {
         alert('please input you are going to do');
@@ -261,16 +272,19 @@ function addToDoList() {
     input.focus();
 }
 
+//add버튼 클릭감지
 add.addEventListener('click', (event) => {
     addToDoList();
 });
 
+//add버튼 키보드 클릭감지
 input.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         addToDoList();
     }
 });
 
+//reset 클릭감지 및 실행
 reset.addEventListener('click', () => {
     const result = prompt(`Do you really want to reset TODO on ${year} ${mon} ${DayOfChoice}? Enter (y/n)`);
     const YMD = year + '-' + mon + '-' + DayOfChoice;
@@ -280,6 +294,7 @@ reset.addEventListener('click', () => {
     }
 });
 
+//all reset 클릭감지 및 실행
 allReset.addEventListener('click', () => {
     const result = prompt(`Do you really want to clear all TODO? Enter (y/n) not recomended💥`);
     if (result === 'y') {
@@ -288,6 +303,7 @@ allReset.addEventListener('click', () => {
     }
 });
 
+//달력부분 클릭 감지
 todoList.addEventListener('click', (event) => {
     if (event.target.className === 'far fa-minus-square') {
         console.log("a: " + event.target.parentNode.parentNode.textContent);
